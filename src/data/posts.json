@@ -1,0 +1,36 @@
+{
+    "posts": [
+      {
+        "image": "https://cdn.pixabay.com/photo/2016/11/29/05/45/astronomy-1867616_960_720.jpg",
+        "message": "sample text",
+        "likes": [
+          
+        ],
+        "author": {
+          "avatar": "",
+          "username": "usertest",
+          "name": "user",
+          "surname": "test"
+        },
+        "create_at": "2012-04-23T18:25:43.511Z",
+        "location": "US",
+        "status": "published"
+      },
+      {
+        "image": "https://cdn.pixabay.com/photo/2016/07/02/12/21/eclipse-1492818_960_720.jpg",
+        "message": "Message",
+        "likes": [
+          
+        ],
+        "author": {
+          "avatar": "",
+          "username": "usertest2",
+          "name": "user2",
+          "surname": "test2"
+        },
+        "create_at": "2012-04-23T18:25:43.511Z",
+        "location": "US",
+        "status": "published"
+      }
+    ]
+  }

@@ -15,7 +15,7 @@ const LoginScreen = () => {
         <View style={styles.container}>
             <TextInput
                 style={styles.input}
-                placeholder="Nombre de usuario"
+                placeholder="@username"
                 value={username}
                 onChangeText={handleUsernameChange}
             />
