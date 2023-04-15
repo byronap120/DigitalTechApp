@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet } from 'react-native';
+import { View, TextInput, Button, StyleSheet, Text } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { dbCheckUserExists } from '../../data/database';
+import { colors } from '../../styles/colors';
+import themes from '../../styles/themes';
 
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }) => {
     const [username, setUsername] = useState('');
 
     const handleUsernameChange = (value) => {
@@ -9,21 +13,39 @@ const LoginScreen = () => {
     };
 
     const handleLoginPress = () => {
+        dbCheckUserExists(username, receiveResult)
     };
+
+    function receiveResult(result) {
+        console.log(result);
+    }
 
     return (
         <View style={styles.container}>
-            <TextInput
-                style={styles.input}
-                placeholder="@username"
-                value={username}
-                onChangeText={handleUsernameChange}
-            />
-            <Button
-                style={styles.button}
-                title="Iniciar sesión"
-                onPress={handleLoginPress}
-            />
+            <Text
+                style={styles.title}>
+                Digital Tech Inc
+            </Text>
+            <View
+                style={themes.styles.card}>
+                <TextInput
+                    style={themes.styles.textInput}
+                    placeholder="@username"
+                    autoCapitalize="none"
+                    value={username}
+                    onChangeText={handleUsernameChange}
+                />
+                <TouchableOpacity
+                    style={themes.styles.primaryButton}
+                    onPress={handleLoginPress}>
+                    <Text style={themes.styles.buttonText}>Entrar</Text>
+                </TouchableOpacity>
+                <Text
+                    style={styles.textLink}
+                    onPress={() => navigation.navigate('SignUp')}>
+                    Crear usuario
+                </Text>
+            </View>
         </View>
     );
 };
@@ -31,20 +53,27 @@ const LoginScreen = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
+        backgroundColor: 'white',
+        padding: 16,
         justifyContent: 'center',
+        alignItems: 'center',
     },
-    input: {
-        height: 40,
-        width: '90%',
-        borderColor: 'gray',
-        borderWidth: 1,
-        paddingHorizontal: 10,
-        marginBottom: 20,
+    title: {
+        fontSize: 30,
+        fontWeight: 'bold',
+        color: 'grey',
+        marginBottom: 22,
     },
-    button: {
-        width: '90%',
+    textLink: {
+        marginTop: 36,
+        fontWeight: 'bold',
+        fontSize: 16,
+        textAlign: 'center',
+        color: colors.purple,
+        textDecorationLine: 'underline',
+        padding: 20,
     },
+
 });
 
 export default LoginScreen;

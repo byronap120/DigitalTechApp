@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react'
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { dbInit, dbInsertPost, dbInsertUser } from '../../data/database';
+import postData from '../../data/posts.json';
 
-const SplashScreen = () => {
+const SplashScreen = ({ navigation }) => {
 
     useEffect(() => {
         fetchLocalData()
@@ -9,6 +11,15 @@ const SplashScreen = () => {
 
     const fetchLocalData = async () => {
         console.log("hola")
+        dbInit()
+        postData.posts.forEach(post => {
+            dbInsertPost(post)
+            dbInsertUser(post.author)
+        });
+        navigation.reset({
+            index: 0,
+            routes: [{ name: 'Login' }],
+        });
     }
 
     return (
