@@ -79,3 +79,22 @@ export const dbCheckUserExists = async (username, callback) => {
         );
     })
 }
+
+export const dbGetAllPosts = callback => {
+    db.transaction(tx => {
+      tx.executeSql(
+        'SELECT * FROM posts',
+        [],
+        (_, result) => {
+          let posts = [];
+          for (let i = 0; i < result.rows.length; i++) {
+            posts.push(result.rows.item(i));
+          }
+          callback(posts);
+        },
+        error => {
+          console.log(error);
+        },
+      );
+    });
+  };

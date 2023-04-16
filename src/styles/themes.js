@@ -24,12 +24,14 @@ const styles = {
         color: '#fff',
         textAlign: 'center',
         paddingLeft: 10,
-        paddingRight: 10
+        paddingRight: 10,
+        width: '100%',
     },
     textInput: {
         borderColor: colors.purple,
         borderWidth: 1,
         borderRadius: 4,
+        width: '100%',
         padding: 8,
         marginBottom: 16,
     },
