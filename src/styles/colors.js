@@ -8,5 +8,6 @@ export const colors = {
     disabled: '#cccccc',
     white: '#ffffff',
     grey: '#343434',
-    lightGrey: '#E6E6E6'
+    lightGrey: '#E6E6E6',
+    backgroundGrey: '#F6F4F7'
   };

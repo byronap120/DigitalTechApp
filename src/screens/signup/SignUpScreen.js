@@ -33,7 +33,7 @@ function SignUpScreen({ navigation }) {
         for (const fieldName in fieldLengths) {
             const fieldLength = fieldLengths[fieldName];
             if (fieldLength < 3 || fieldLength > 20) {
-                Alert.alert('Alerta', `${fieldName} debe ser entre 3 y 20 caracteres`, []);
+                alert(`${fieldName} debe ser entre 3 y 20 caracteres`);
                 return;
             }
         }
