@@ -1,24 +1,29 @@
 import React, { useContext, useState } from 'react';
 import PostContext from '../../store/post_context';
 import { FlatList, View, Text, StyleSheet } from 'react-native';
+import PostCard from './PostsCard';
 
 
-const PostsLists = () => {
+const PostsLists = ({list}) => {
     const postCTx = useContext(PostContext)
+
+    const renderItem = ({ item }) => (
+        <PostCard
+          id={item.id}
+          image={item.image}
+          message={item.message}
+          likes={JSON.parse(item.likes)}
+          author={JSON.parse(item.author)}
+          create_at={item.create_at}
+          location={item.location}
+        />
+      );
 
     return (
         <FlatList
-            data={postCTx.posts}
+            data={list}
             keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => {
-                return (
-                    <View>
-                        <Text>
-                            {item.message}
-                        </Text>
-                    </View>
-                );
-            }}
+            renderItem={renderItem}
         />
     )
 };

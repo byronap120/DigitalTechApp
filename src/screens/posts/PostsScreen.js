@@ -20,9 +20,15 @@ const PostScreen = ({ navigation }) => {
         }
     };
 
-    const filteredPosts = posts.filter((post) =>
-        post.title.toLowerCase().includes(searchText.toLowerCase())
-    );
+    const filteredPosts = postCTx.posts.filter(post => {
+        const { author, message } = post;
+        const search = searchText.toLowerCase();
+        const username = JSON.parse(author).username
+        return (
+            username.toLowerCase().includes(search) ||
+            message.toLowerCase().includes(search)
+        );
+    });
 
     return (
         <SafeAreaView style={styles.container}>
@@ -40,7 +46,8 @@ const PostScreen = ({ navigation }) => {
                     />
                 </View>
             </View>
-            <PostsLists />
+            <PostsLists
+            list={filteredPosts} />
             <PostsCreateModal
                 visible={createModalVisible}
                 setVisible={setCreateModalVisible}

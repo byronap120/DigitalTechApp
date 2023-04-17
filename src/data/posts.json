@@ -2,12 +2,22 @@
     "posts": [
       {
         "image": "https://cdn.pixabay.com/photo/2016/11/29/05/45/astronomy-1867616_960_720.jpg",
-        "message": "sample text",
+        "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In non ultrices ex, non aliquam mi. Etiam tristique arcu nisi, eget placerat orci malesuada in. Aliquam euismod ullamcorper nisi, fermentum scelerisque sem ullamcorper eu.",
         "likes": [
-          
+          {
+            "avatar": "",
+            "username": "user100",
+            "name": "user",
+            "surname": "test"
+          },{
+            "avatar": "",
+            "username": "user101",
+            "name": "user",
+            "surname": "test"
+          }
         ],
         "author": {
-          "avatar": "",
+          "avatar": "https://cdn.pixabay.com/photo/2020/09/04/21/36/man-5545030_960_720.jpg",
           "username": "usertest",
           "name": "user",
           "surname": "test"
@@ -18,18 +28,54 @@
       },
       {
         "image": "https://cdn.pixabay.com/photo/2016/07/02/12/21/eclipse-1492818_960_720.jpg",
-        "message": "Message",
+        "message": "Aliquam euismod ullamcorper nisi, fermentum scelerisque sem ullamcorper eu. Curabitur non dapibus eros, quis consequat augue.",
         "likes": [
-          
+          {
+            "avatar": "",
+            "username": "user200",
+            "name": "user",
+            "surname": "test"
+          },{
+            "avatar": "",
+            "username": "user201",
+            "name": "user",
+            "surname": "test"
+          }
         ],
         "author": {
-          "avatar": "",
+          "avatar": "https://cdn.pixabay.com/photo/2020/09/07/17/46/girl-5552504_960_720.jpg",
           "username": "usertest2",
           "name": "user2",
           "surname": "test2"
         },
         "create_at": "2012-04-23T18:25:43.511Z",
         "location": "US",
+        "status": "published"
+      },
+      {
+        "image": "https://cdn.pixabay.com/photo/2016/07/02/12/21/eclipse-1492818_960_720.jpg",
+        "message": "Mauris iaculis urna et felis sodales mattis. Cras pretium luctus fringilla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.",
+        "likes": [
+          {
+            "avatar": "",
+            "username": "user200",
+            "name": "user",
+            "surname": "test"
+          },{
+            "avatar": "",
+            "username": "user201",
+            "name": "user",
+            "surname": "test"
+          }
+        ],
+        "author": {
+          "avatar": "",
+          "username": "usertest3",
+          "name": "user2",
+          "surname": "test2"
+        },
+        "create_at": "2012-04-23T18:25:43.511Z",
+        "location": "Mexico",
         "status": "published"
       }
     ]

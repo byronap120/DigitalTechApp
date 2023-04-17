@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { View, StyleSheet, Text, KeyboardAvoidingView } from 'react-native';
 import { dbCheckUserExists } from '../../data/database';
 import { colors } from '../../styles/colors';
 import themes from '../../styles/themes';
 import PrimaryButton from '../../components/PrimaryButton';
 import AppTextInput from '../../components/AppTextInput';
+import * as SecureStore from 'expo-secure-store';
+
 
 const LoginScreen = ({ navigation }) => {
     const [username, setUsername] = useState('');
@@ -17,8 +19,9 @@ const LoginScreen = ({ navigation }) => {
         dbCheckUserExists(username, receiveResult)
     };
 
-    function receiveResult(result) {
-        if (result) {
+    const receiveResult = async (result) => {
+        if (result != null) {
+            await SecureStore.setItemAsync('username', result.username);
             navigation.navigate('Posts')
         } else {
             alert('No existe el usuario');
@@ -39,7 +42,7 @@ const LoginScreen = ({ navigation }) => {
                     <AppTextInput
                         value={username}
                         onChangeText={handleUsernameChange}
-                        placeholder={"@username"}
+                        placeholder={"Username"}
                     />
                     <PrimaryButton
                         onPress={handleLoginPress}

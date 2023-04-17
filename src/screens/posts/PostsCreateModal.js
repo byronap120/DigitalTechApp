@@ -1,20 +1,45 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { View, Modal, TextInput, TouchableOpacity, StyleSheet, Text } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import PrimaryButton from '../../components/PrimaryButton';
 import AppTextInput from '../../components/AppTextInput';
 import { colors } from '../../styles/colors';
+import PostContext from '../../store/post_context';
+import { Picker } from '@react-native-picker/picker';
+
 
 const PostsCreateModal = (props) => {
     const [message, setMessage] = useState('');
     const [location, setLocation] = useState('');
     const [imageUrl, setImageUrl] = useState('');
+    const [status, setStatus] = useState('published');
 
-    const handleSubmit = () => {
-        console.log("crate post")
+    const postCTx = useContext(PostContext)
+
+    const createPost = () => {
+        const date = new Date()
+        const post = {
+            image: imageUrl,
+            message: message,
+            likes: [],
+            author: postCTx.user,
+            create_at: date.toISOString(),
+            status: 'published'
+        }
+        postCTx.newPost(post)
+        clearValues()
+        props.setVisible(false)
     };
 
+    const clearValues = () => {
+        setMessage('')
+        setLocation('')
+        setImageUrl('')
+        setStatus('published')
+    }
+
     const closeModal = () => {
+        clearValues()
         props.setVisible(false)
     };
 
@@ -54,8 +79,19 @@ const PostsCreateModal = (props) => {
                         onChangeText={setImageUrl}
                         placeholder={"Imagen Url"}
                     />
+                    <View
+                        style={styles.pickerContainer}>
+                        <Picker
+                            selectedValue={status}
+                            style={styles.picker}
+                            onValueChange={(itemValue, itemIndex) => setStatus(itemValue)}>
+                            <Picker.Item label="Published" value="published" />
+                            <Picker.Item label="Drafted" value="drafted" />
+                            <Picker.Item label="Deleted" value="deleted" />
+                        </Picker>
+                    </View>
                     <PrimaryButton
-                        onPress={handleSubmit}
+                        onPress={createPost}
                         title={"Crear Post"}
                     />
                 </View>
@@ -100,6 +136,20 @@ const styles = StyleSheet.create({
         color: 'black',
         marginBottom: 24,
         marginTop: 12
+    },
+    pickerContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignSelf: 'stretch',
+        borderWidth: 1,
+        borderRadius: 5,
+        borderColor: colors.purple,
+        height: 50,
+        width: '100%'
+    },
+    picker: {
+        height: 50,
+        width: '100%',
     },
 });
 
