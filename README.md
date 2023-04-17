@@ -2,7 +2,7 @@
 
 Este repositorio contiene un proyecto realizado en React Native con Expo. La aplicación utiliza las siguientes tecnologías:
 
-- React.js + Hooks
+- React Native + Hooks
 - React context como state management para conectarse a la base de datos y manejo de publicaciones del usuario
 - Una base de datos sqlite para guardar las publicaciones de los usuarios
 
