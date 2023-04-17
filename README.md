@@ -19,6 +19,7 @@ La aplicación cuenta con las siguientes funcionalidades:
 - Perfil de usuario
 - Persistencia de datos para sesión de usuario y publicaciones
 - La aplicación cuenta con una opción de "Recargar datos" la cual borra la base de datos y carga nuevamente el archivo JSON que se encuentra dentro de la aplicación
+- Por tiempo no fue posible testear toda la aplicacion, pero se agrego un unit test simple al login para mostrar que el proyecto esta completamente configurado para poder seguir agregando mas test. para ejecutar solo se debe correr **npm test**
 
 **Nota:** La aplicación solo puede ser ejecutada en Android y iOS ya que la base de datos no tiene soporte para la versión web.
 
