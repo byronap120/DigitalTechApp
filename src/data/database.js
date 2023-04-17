@@ -72,7 +72,6 @@ export const dbCheckUserExists = async (username, callback) => {
                 if (result.rows.length === 0) {
                     callback(null);
                 } else {
-                    //console.log(result.rows._array[0])
                     callback(result.rows._array[0]);
                 }
             },
@@ -108,8 +107,33 @@ export const dbUpdateLikes = (likes, postID, callback) => {
         'UPDATE posts SET likes = ? WHERE id = ?',
         [JSON.stringify(likes), postID],
         () => {
-          console.log('Likes updated successfully');
           callback();
+        },
+        error => {
+          console.log(error);
+        },
+      );
+    });
+  };
+
+  export const dbResetData = callback => {
+    db.transaction(tx => {
+      tx.executeSql(
+        'DELETE FROM posts',
+        [],
+        () => {
+          console.log('Posts data deleted successfully');
+          tx.executeSql(
+            'DELETE FROM users',
+            [],
+            () => {
+              console.log('Users data deleted successfully');
+              callback();
+            },
+            error => {
+              console.log(error);
+            },
+          );
         },
         error => {
           console.log(error);

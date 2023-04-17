@@ -3,6 +3,7 @@ import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import PostContext from '../../store/post_context';
 import { colors } from '../../styles/colors';
 import * as SecureStore from 'expo-secure-store';
+import { FontAwesome } from '@expo/vector-icons';
 
 
 const UserProfileScreen = ({ navigation }) => {
@@ -24,9 +25,18 @@ const UserProfileScreen = ({ navigation }) => {
         });
     }
 
+    const renderUserAvatar = () => {
+        const source = postCTx.user ? postCTx.user.avatar: ''
+        if (source) {
+            return <Image style={styles.avatar} source={{ uri: source }} />
+        } else {
+            return <FontAwesome name="user-circle" size={140} color="grey" />;
+        }
+    }
+
     return (
         <View style={styles.container}>
-            <Image source={{ uri: postCTx.user.avatar }} style={styles.avatar} />
+            {renderUserAvatar()}
             <Text style={styles.username}>@{postCTx.user.username}</Text>
             <Text style={styles.fullName}>{`${postCTx.user.name} ${postCTx.user.surname}`}</Text>
             <TouchableOpacity style={styles.logoutButton} onPress={onLogout}>
