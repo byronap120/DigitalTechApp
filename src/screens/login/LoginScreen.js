@@ -16,7 +16,7 @@ const LoginScreen = ({ navigation }) => {
     };
 
     const handleLoginPress = () => {
-        dbCheckUserExists(username, receiveResult)
+        dbCheckUserExists(username.trim(), receiveResult)
     };
 
     const receiveResult = async (result) => {

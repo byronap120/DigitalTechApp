@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { View, Modal, TextInput, TouchableOpacity, StyleSheet, Text } from 'react-native';
+import { View, Modal, TextInput, TouchableOpacity, StyleSheet, Text, KeyboardAvoidingView, Alert } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import PrimaryButton from '../../components/PrimaryButton';
 import AppTextInput from '../../components/AppTextInput';
@@ -15,6 +15,25 @@ const PostsCreateModal = (props) => {
     const [status, setStatus] = useState('published');
 
     const postCTx = useContext(PostContext)
+
+    const validateInputValues = () => {
+        if (!message || !location) {
+            alert('Porfavor ingresa todos los campos');
+            return;
+        }
+
+        if (location.length < 3 || location.length > 20) {
+            alert(`Ubicacion debe ser entre 3 y 20 caracteres`);
+            return;
+        }
+
+        if (message.length < 10 || message.length > 500) {
+            alert(`Mensaje debe ser entre 10 y 500 caracteres`);
+            return;
+        }
+
+        createPost()
+    }
 
     const createPost = () => {
         const date = new Date()
@@ -49,53 +68,57 @@ const PostsCreateModal = (props) => {
             transparent={true}
             visible={props.visible}
         >
-            <View style={styles.centeredView}>
-                <View style={styles.modalView}>
-                    <View style={styles.closeButtonContainer}>
-                        <TouchableOpacity onPress={closeModal}>
-                            <AntDesign name="closecircleo" size={32} color="#8F21AD" />
-                        </TouchableOpacity>
+            <KeyboardAvoidingView
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                style={{ flex: 1 }}>
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <View style={styles.closeButtonContainer}>
+                            <TouchableOpacity onPress={closeModal}>
+                                <AntDesign name="closecircleo" size={32} color="#8F21AD" />
+                            </TouchableOpacity>
+                        </View>
+                        <Text
+                            style={styles.modalTitle}>
+                            Nueva Publicación
+                        </Text>
+                        <TextInput
+                            value={message}
+                            onChangeText={setMessage}
+                            style={styles.input}
+                            multiline={true}
+                            numberOfLines={6}
+                            textAlignVertical='top'
+                            placeholder="Mensaje..."
+                        />
+                        <AppTextInput
+                            value={location}
+                            onChangeText={setLocation}
+                            placeholder={"Ubicacion"}
+                        />
+                        <AppTextInput
+                            value={imageUrl}
+                            onChangeText={setImageUrl}
+                            placeholder={"Imagen Url"}
+                        />
+                        <View
+                            style={styles.pickerContainer}>
+                            <Picker
+                                selectedValue={status}
+                                style={styles.picker}
+                                onValueChange={(itemValue, itemIndex) => setStatus(itemValue)}>
+                                <Picker.Item label="Published" value="published" />
+                                <Picker.Item label="Drafted" value="drafted" />
+                                <Picker.Item label="Deleted" value="deleted" />
+                            </Picker>
+                        </View>
+                        <PrimaryButton
+                            onPress={validateInputValues}
+                            title={"Crear Publicación"}
+                        />
                     </View>
-                    <Text
-                        style={styles.modalTitle}>
-                        Crear un Post nuevo
-                    </Text>
-                    <TextInput
-                        value={message}
-                        onChangeText={setMessage}
-                        style={styles.input}
-                        multiline={true}
-                        numberOfLines={6}
-                        textAlignVertical='top'
-                        placeholder="Mensaje..."
-                    />
-                    <AppTextInput
-                        value={location}
-                        onChangeText={setLocation}
-                        placeholder={"Ubicacion"}
-                    />
-                    <AppTextInput
-                        value={imageUrl}
-                        onChangeText={setImageUrl}
-                        placeholder={"Imagen Url"}
-                    />
-                    <View
-                        style={styles.pickerContainer}>
-                        <Picker
-                            selectedValue={status}
-                            style={styles.picker}
-                            onValueChange={(itemValue, itemIndex) => setStatus(itemValue)}>
-                            <Picker.Item label="Published" value="published" />
-                            <Picker.Item label="Drafted" value="drafted" />
-                            <Picker.Item label="Deleted" value="deleted" />
-                        </Picker>
-                    </View>
-                    <PrimaryButton
-                        onPress={createPost}
-                        title={"Crear Post"}
-                    />
                 </View>
-            </View>
+            </KeyboardAvoidingView>
         </Modal>
     );
 };

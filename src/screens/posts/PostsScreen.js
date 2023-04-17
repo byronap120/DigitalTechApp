@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { StyleSheet, View, Text, TextInput, FlatList, Image, TouchableOpacity, SafeAreaView } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 import { colors } from '../../styles/colors';
@@ -7,12 +7,17 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 import PostContext from '../../store/post_context';
 import PostsLists from './PostsList';
 import PostsCreateModal from './PostsCreateModal';
+import Avatar from '../../components/ImageAvatar';
 
 const PostScreen = ({ navigation }) => {
     const [posts, setPosts] = useState([]);
     const [searchText, setSearchText] = useState('');
     const [createModalVisible, setCreateModalVisible] = useState(false);
     const postCTx = useContext(PostContext)
+
+    useEffect(() => {
+        postCTx.loadUserConfiguration()
+    }, []);
 
     const handleNewPost = () => {
         if (!createModalVisible) {
@@ -30,11 +35,22 @@ const PostScreen = ({ navigation }) => {
         );
     });
 
+    const goToUserProfile = () => {
+        navigation.navigate('UserProfile')
+    }
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
-                <TouchableOpacity style={styles.userImage}>
-                    <Image source={{ uri: 'https://cdn.pixabay.com/photo/2016/07/02/12/21/eclipse-1492818_960_720.jpg' }} style={{ width: '100%', height: '100%', borderRadius: 50 }} />
+                <TouchableOpacity
+                    style={styles.userImage}
+                    onPress={goToUserProfile}>
+                    {/* <Image source={{ uri: 'https://cdn.pixabay.com/photo/2016/07/02/12/21/eclipse-1492818_960_720.jpg' }} style={{ width: '100%', height: '100%', borderRadius: 50 }} /> */}
+                    <Avatar
+                        source={postCTx.user.avatar}
+                        borderColor={colors.purple}
+                    />
+
                 </TouchableOpacity>
                 <View style={styles.searchInputContainer}>
                     <Feather name="search" size={24} color="grey" style={styles.searchIcon} />
@@ -47,7 +63,7 @@ const PostScreen = ({ navigation }) => {
                 </View>
             </View>
             <PostsLists
-            list={filteredPosts} />
+                list={filteredPosts} />
             <PostsCreateModal
                 visible={createModalVisible}
                 setVisible={setCreateModalVisible}
@@ -62,7 +78,7 @@ const PostScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: colors.backgroundGrey,
     },
     header: {
         flexDirection: 'row',
@@ -75,11 +91,9 @@ const styles = StyleSheet.create({
         marginTop: 32,
     },
     userImage: {
-        width: 40,
-        height: 40,
-        borderRadius: 50,
-        overflow: 'hidden',
-        marginRight: 8,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginRight: 12,
     },
     searchInputContainer: {
         flex: 1,

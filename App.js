@@ -5,6 +5,7 @@ import SignUpScreen from './src/screens/signup/SignUpScreen';
 import SplashScreen from './src/screens/splash/SplashScreen';
 import PostScreen from './src/screens/posts/PostsScreen';
 import { PostContextProvider } from './src/store/post_context';
+import UserProfileScreen from './src/screens/userProfile/UserProfileScreen';
 
 const Stack = createStackNavigator();
 
@@ -17,6 +18,7 @@ export default function App() {
           <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
           <Stack.Screen name="SignUp" component={SignUpScreen} />
           <Stack.Screen name="Posts" component={PostScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="UserProfile" component={UserProfileScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </PostContextProvider>
