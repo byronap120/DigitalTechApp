@@ -1,9 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { StyleSheet, View, Text, TextInput, FlatList, Image, TouchableOpacity, SafeAreaView } from 'react-native';
+import { StyleSheet, View, TextInput, TouchableOpacity, SafeAreaView } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 import { colors } from '../../styles/colors';
 import { Feather } from '@expo/vector-icons';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 import PostContext from '../../store/post_context';
 import PostsLists from './PostsList';
 import PostsCreateModal from './PostsCreateModal';
@@ -46,7 +45,7 @@ const PostScreen = ({ navigation }) => {
                     style={styles.userImage}
                     onPress={goToUserProfile}>
                     <Avatar
-                        source={postCTx.user ? postCTx.user.avatar: ''}
+                        source={postCTx.user ? postCTx.user.avatar : ''}
                         borderColor={colors.purple}
                     />
 

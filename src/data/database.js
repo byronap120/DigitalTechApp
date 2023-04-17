@@ -103,41 +103,41 @@ export const dbGetAllPosts = callback => {
 
 export const dbUpdateLikes = (likes, postID, callback) => {
     db.transaction(tx => {
-      tx.executeSql(
-        'UPDATE posts SET likes = ? WHERE id = ?',
-        [JSON.stringify(likes), postID],
-        () => {
-          callback();
-        },
-        error => {
-          console.log(error);
-        },
-      );
-    });
-  };
-
-  export const dbResetData = callback => {
-    db.transaction(tx => {
-      tx.executeSql(
-        'DELETE FROM posts',
-        [],
-        () => {
-          console.log('Posts data deleted successfully');
-          tx.executeSql(
-            'DELETE FROM users',
-            [],
+        tx.executeSql(
+            'UPDATE posts SET likes = ? WHERE id = ?',
+            [JSON.stringify(likes), postID],
             () => {
-              console.log('Users data deleted successfully');
-              callback();
+                callback();
             },
             error => {
-              console.log(error);
+                console.log(error);
             },
-          );
-        },
-        error => {
-          console.log(error);
-        },
-      );
+        );
     });
-  };
+};
+
+export const dbResetData = callback => {
+    db.transaction(tx => {
+        tx.executeSql(
+            'DELETE FROM posts',
+            [],
+            () => {
+                console.log('Posts data deleted successfully');
+                tx.executeSql(
+                    'DELETE FROM users',
+                    [],
+                    () => {
+                        console.log('Users data deleted successfully');
+                        callback();
+                    },
+                    error => {
+                        console.log(error);
+                    },
+                );
+            },
+            error => {
+                console.log(error);
+            },
+        );
+    });
+};

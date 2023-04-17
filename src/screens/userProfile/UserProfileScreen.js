@@ -17,7 +17,7 @@ const UserProfileScreen = ({ navigation }) => {
         });
     }, []);
 
-    const onLogout = async() => {
+    const onLogout = async () => {
         await SecureStore.deleteItemAsync('username');
         navigation.reset({
             index: 0,
@@ -26,7 +26,7 @@ const UserProfileScreen = ({ navigation }) => {
     }
 
     const renderUserAvatar = () => {
-        const source = postCTx.user ? postCTx.user.avatar: ''
+        const source = postCTx.user ? postCTx.user.avatar : ''
         if (source) {
             return <Image style={styles.avatar} source={{ uri: source }} />
         } else {
