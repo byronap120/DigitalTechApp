@@ -24,7 +24,10 @@ const LoginScreen = ({ navigation }) => {
     const receiveResult = async (result) => {
         if (result != null) {
             await SecureStore.setItemAsync('username', result.username);
-            navigation.navigate('Posts')
+            navigation.reset({
+                index: 0,
+                routes: [{ name: 'Posts' }],
+            });
         } else {
             alert('No existe el usuario');
         }
@@ -32,6 +35,8 @@ const LoginScreen = ({ navigation }) => {
 
     const resetAppData = () => {
         postCTx.resetAppData()
+        alert('Los datos han sido borrados y reiniciados');
+
     }
 
     return (
