@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { View, StyleSheet, Text, KeyboardAvoidingView } from 'react-native';
+import { View, StyleSheet, Text, KeyboardAvoidingView, Platform } from 'react-native';
 import { dbCheckUserExists } from '../../data/database';
 import { colors } from '../../styles/colors';
 import themes from '../../styles/themes';
