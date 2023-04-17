@@ -27,13 +27,16 @@ export const dbInit = () => {
     });
 };
 
-export const dbInsertPost = post => {
+export const dbInsertPost = (post, callback) => {
     db.transaction(tx => {
         tx.executeSql(
             'INSERT INTO posts (image, message, likes, author, create_at, location, status) VALUES (?, ?, ?, ?, ?, ?, ?)',
             [post.image, post.message, JSON.stringify(post.likes), JSON.stringify(post.author), post.create_at, post.location, post.status],
             () => {
                 console.log('Post data inserted successfully');
+                if (callback && typeof callback === 'function') {
+                    callback(true);
+                }
             },
             error => {
                 console.log(error);
@@ -51,7 +54,7 @@ export const dbInsertUser = (user, callback) => {
                 console.log('User data inserted successfully');
                 if (callback && typeof callback === 'function') {
                     callback(true);
-                  }
+                }
             },
             error => {
                 console.log(error);
@@ -67,10 +70,10 @@ export const dbCheckUserExists = async (username, callback) => {
             [username],
             (_, result) => {
                 if (result.rows.length === 0) {
-                    callback(false);
+                    callback(null);
                 } else {
-                    console.log(result.rows.length)
-                    callback(true);
+                    //console.log(result.rows._array[0])
+                    callback(result.rows._array[0]);
                 }
             },
             error => {
@@ -79,3 +82,38 @@ export const dbCheckUserExists = async (username, callback) => {
         );
     })
 }
+
+export const dbGetAllPosts = callback => {
+    db.transaction(tx => {
+        tx.executeSql(
+            'SELECT * FROM posts ORDER BY create_at DESC',
+            [],
+            (_, result) => {
+                let posts = [];
+                for (let i = 0; i < result.rows.length; i++) {
+                    posts.push(result.rows.item(i));
+                }
+                callback(posts);
+            },
+            error => {
+                console.log(error);
+            },
+        );
+    });
+};
+
+export const dbUpdateLikes = (likes, postID, callback) => {
+    db.transaction(tx => {
+      tx.executeSql(
+        'UPDATE posts SET likes = ? WHERE id = ?',
+        [JSON.stringify(likes), postID],
+        () => {
+          console.log('Likes updated successfully');
+          callback();
+        },
+        error => {
+          console.log(error);
+        },
+      );
+    });
+  };

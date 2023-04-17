@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Alert, KeyboardAvoidingView} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import themes from '../../styles/themes';
 import { colors } from '../../styles/colors';
@@ -75,51 +75,56 @@ function SignUpScreen({ navigation }) {
     }
 
     return (
-        <View style={styles.container}>
-            <View
-                style={themes.styles.card}>
-                <Text>
-                    Username:
-                </Text>
-                <TextInput
-                    value={username}
-                    onChangeText={setUsername}
-                    style={themes.styles.textInput}
-                    autoCapitalize="none" />
-                <Text>
-                    Name:
-                </Text>
-                <TextInput
-                    value={name}
-                    onChangeText={setName}
-                    style={themes.styles.textInput}
-                    autoCapitalize="none" />
-
-                <Text>
-                    Surname:
-                </Text>
-                <TextInput
-                    value={surname}
-                    onChangeText={setSurname}
-                    style={themes.styles.textInput}
-                    autoCapitalize="none" />
-                <Text>
-                    Avatar URL(Opcional):
-                </Text>
-                <TextInput
-                    value={avatar}
-                    onChangeText={setAvatar}
-                    style={themes.styles.textInput}
-                    autoCapitalize="none" />
-                <TouchableOpacity
-                    style={themes.styles.primaryButton}
-                    onPress={handleSignUp}>
-                    <Text style={themes.styles.buttonText}>
-                        Crear usuario
+        <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            style={{ flex: 1 }}>
+            <View style={styles.container}>
+                <View
+                    style={themes.styles.card}>
+                    <Text>
+                        Username:
                     </Text>
-                </TouchableOpacity>
+                    <TextInput
+                        value={username}
+                        onChangeText={setUsername}
+                        style={themes.styles.textInput}
+                        autoCapitalize="none" />
+                    <Text>
+                        Name:
+                    </Text>
+                    <TextInput
+                        value={name}
+                        onChangeText={setName}
+                        style={themes.styles.textInput}
+                        autoCapitalize="none" />
+
+                    <Text>
+                        Surname:
+                    </Text>
+                    <TextInput
+                        value={surname}
+                        onChangeText={setSurname}
+                        style={themes.styles.textInput}
+                        autoCapitalize="none" />
+                    <Text>
+                        Avatar URL(Opcional):
+                    </Text>
+                    <TextInput
+                        value={avatar}
+                        onChangeText={setAvatar}
+                        style={themes.styles.textInput}
+                        autoCapitalize="none" />
+                    <TouchableOpacity
+                        style={themes.styles.primaryButton}
+                        onPress={handleSignUp}>
+                        <Text style={themes.styles.buttonText}>
+                            Crear usuario
+                        </Text>
+                    </TouchableOpacity>
+                </View>
             </View>
-        </View>
+        </KeyboardAvoidingView>
+
     );
 }
 
