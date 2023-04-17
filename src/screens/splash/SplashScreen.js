@@ -16,7 +16,7 @@ const SplashScreen = ({ navigation }) => {
             const destination = result ? 'Posts' : 'Login'
             navigation.reset({
                 index: 0,
-                routes: [{ name: 'Login' }],
+                routes: [{ name: destination }],
             });
         })
 

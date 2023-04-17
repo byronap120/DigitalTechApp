@@ -12,12 +12,14 @@ const PostCard = ({ id, image, message, likes, author, create_at, location }) =>
     const postCTx = useContext(PostContext)
 
     useEffect(() => {
+        console.log(`USER COMPARE: ${postCTx.user.username}`)
         likes.forEach((user) => {
-            if (user.username === author.username) {
+            console.log(`${user.username}`)
+            if (user.username === postCTx.user.username) {
                 setLikedByUser(true)
             }
         });
-    }, []);
+    }, [postCTx.user]);
 
     const likeHandler = () => {
         const newValue = !likedByUser
