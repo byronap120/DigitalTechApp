@@ -77,7 +77,7 @@ export const PostContextProvider = (props) => {
         }
         dbUpdateLikes(likes, postID, () => {
             console.log("Update like")
-         })
+        })
     }
 
     const isUserLoggedIn = async (callback) => {
@@ -93,8 +93,8 @@ export const PostContextProvider = (props) => {
         }
     }
 
-    const resetAppData = () =>{
-        dbResetData(async () => { 
+    const resetAppData = () => {
+        dbResetData(async () => {
             await SecureStore.setItemAsync('dataLoaded', '');
             fetchDataFirstTime()
         })
@@ -110,7 +110,7 @@ export const PostContextProvider = (props) => {
                 updatePost: updatePost,
                 fetchDataFirstTime: fetchDataFirstTime,
                 isUserLoggedIn: isUserLoggedIn,
-                resetAppData:resetAppData
+                resetAppData: resetAppData
             }}>
             {props.children}
         </PostContext.Provider>
