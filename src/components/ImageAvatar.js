@@ -5,7 +5,6 @@ import { FontAwesome } from '@expo/vector-icons';
 const Avatar = ({ source, borderColor }) => {
 
     const renderUserAvatar = () => {
-        console.log(source)
         if (source) {
             return <Image style={styles.avatar} source={{ uri: source }} />
         } else {

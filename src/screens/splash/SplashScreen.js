@@ -1,25 +1,25 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
-import { dbInit, dbInsertPost, dbInsertUser } from '../../data/database';
-import postData from '../../data/posts.json';
+import PostContext from '../../store/post_context';
 
 const SplashScreen = ({ navigation }) => {
+
+    const postCTx = useContext(PostContext)
 
     useEffect(() => {
         fetchLocalData()
     }, []);
 
     const fetchLocalData = async () => {
-        console.log("hola")
-        dbInit()
-        postData.posts.forEach(post => {
-            dbInsertPost(post)
-            dbInsertUser(post.author)
-        });
-        navigation.reset({
-            index: 0,
-            routes: [{ name: 'Login' }],
-        });
+        postCTx.fetchDataFirstTime()
+        postCTx.isUserLoggedIn((result) => {
+            const destination = result ? 'Posts' : 'Login'
+            navigation.reset({
+                index: 0,
+                routes: [{ name: destination }],
+            });
+        })
+
     }
 
     return (

@@ -45,9 +45,8 @@ const PostScreen = ({ navigation }) => {
                 <TouchableOpacity
                     style={styles.userImage}
                     onPress={goToUserProfile}>
-                    {/* <Image source={{ uri: 'https://cdn.pixabay.com/photo/2016/07/02/12/21/eclipse-1492818_960_720.jpg' }} style={{ width: '100%', height: '100%', borderRadius: 50 }} /> */}
                     <Avatar
-                        source={postCTx.user.avatar}
+                        source={postCTx.user ? postCTx.user.avatar: ''}
                         borderColor={colors.purple}
                     />
 

@@ -1,11 +1,12 @@
 import React, { useContext, useState } from 'react';
-import { View, Modal, TextInput, TouchableOpacity, StyleSheet, Text, KeyboardAvoidingView, Alert } from 'react-native';
+import { View, Modal, TextInput, TouchableOpacity, StyleSheet, Text, KeyboardAvoidingView } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import PrimaryButton from '../../components/PrimaryButton';
 import AppTextInput from '../../components/AppTextInput';
 import { colors } from '../../styles/colors';
-import PostContext from '../../store/post_context';
 import { Picker } from '@react-native-picker/picker';
+import * as Device from 'expo-device';
+import PostContext from '../../store/post_context';
 
 
 const PostsCreateModal = (props) => {
@@ -15,6 +16,9 @@ const PostsCreateModal = (props) => {
     const [status, setStatus] = useState('published');
 
     const postCTx = useContext(PostContext)
+
+    const stylePickerContainer = Device.osName === 'iOS' ? styles.iosContainer : styles.pickerContainer;
+    const stylePicker = Device.osName === 'iOS' ? styles.iosPicker : styles.picker;
 
     const validateInputValues = () => {
         if (!message || !location) {
@@ -102,10 +106,10 @@ const PostsCreateModal = (props) => {
                             placeholder={"Imagen Url"}
                         />
                         <View
-                            style={styles.pickerContainer}>
+                            style={stylePickerContainer}>
                             <Picker
                                 selectedValue={status}
-                                style={styles.picker}
+                                style={stylePicker}
                                 onValueChange={(itemValue, itemIndex) => setStatus(itemValue)}>
                                 <Picker.Item label="Published" value="published" />
                                 <Picker.Item label="Drafted" value="drafted" />
@@ -170,8 +174,14 @@ const styles = StyleSheet.create({
         height: 50,
         width: '100%'
     },
+    iosContainer: {
+        width: '100%'
+    },
     picker: {
         height: 50,
+        width: '100%',
+    },
+    iosPicker: {
         width: '100%',
     },
 });

@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { dbCheckUserExists, dbGetAllPosts, dbInit, dbInsertPost, dbUpdateLikes } from '../data/database';
+import { dbCheckUserExists, dbGetAllPosts, dbInit, dbInsertPost, dbInsertUser, dbResetData, dbUpdateLikes } from '../data/database';
 import * as SecureStore from 'expo-secure-store';
+import postData from '../data/posts.json'
 
 const PostContext = React.createContext({
     posts: [],
     user: {},
     newPost: () => { },
-    filterPost: () => { },
     loadUserConfiguration: () => { },
     updatePost: () => { },
+    fetchDataFirstTime: () => { },
+    isUserLoggedIn: () => { },
+    resetAppData: () => { },
 });
 
 
@@ -32,8 +35,6 @@ export const PostContextProvider = (props) => {
     }
 
     const resultUserDB = (user) => {
-        console.log("PostContext - resultUserDB ")
-        console.log(user)
         setUser(user)
     }
 
@@ -41,17 +42,28 @@ export const PostContextProvider = (props) => {
         setPosts(posts)
     }
 
-    const filterPost = (query) => {
-
-    }
-
     const newPost = (post) => {
         dbInsertPost(post, postInserted)
     }
 
     const postInserted = (result) => {
-        if(result){
+        if (result) {
             dbGetAllPosts(resultPostDB)
+        }
+    }
+
+    const fetchDataFirstTime = async () => {
+        try {
+            const dataLoaded = await SecureStore.getItemAsync('dataLoaded')
+            if (dataLoaded == null || dataLoaded == '') {
+                postData.posts.forEach(post => {
+                    dbInsertPost(post)
+                    dbInsertUser(post.author)
+                });
+                await SecureStore.setItemAsync('dataLoaded', 'loaded');
+            }
+        } catch (error) {
+            console.log('Error loading data: ', error)
         }
     }
 
@@ -59,11 +71,33 @@ export const PostContextProvider = (props) => {
         const username = user.username
         const index = likes.findIndex((user) => user.username === username);
         if (addtoArray && index === -1) {
-          likes.push({ avatar: '', username, name: '', surname: '' });
+            likes.push({ avatar: '', username, name: '', surname: '' });
         } else if (!addtoArray && index !== -1) {
-          likes.splice(index, 1);
+            likes.splice(index, 1);
         }
-        dbUpdateLikes(likes, postID, () => { })
+        dbUpdateLikes(likes, postID, () => {
+            console.log("Update like")
+         })
+    }
+
+    const isUserLoggedIn = async (callback) => {
+        try {
+            const username = await SecureStore.getItemAsync('username')
+            if (username != null && username.length > 3) {
+                callback(true)
+            } else {
+                callback(false)
+            }
+        } catch (error) {
+            callback(false)
+        }
+    }
+
+    const resetAppData = () =>{
+        dbResetData(async () => { 
+            await SecureStore.setItemAsync('dataLoaded', '');
+            fetchDataFirstTime()
+        })
     }
 
     return (
@@ -72,9 +106,11 @@ export const PostContextProvider = (props) => {
                 posts: posts,
                 user: user,
                 newPost: newPost,
-                filterPost: filterPost,
                 loadUserConfiguration: loadUserConfiguration,
-                updatePost: updatePost
+                updatePost: updatePost,
+                fetchDataFirstTime: fetchDataFirstTime,
+                isUserLoggedIn: isUserLoggedIn,
+                resetAppData:resetAppData
             }}>
             {props.children}
         </PostContext.Provider>
